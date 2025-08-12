@@ -79,6 +79,5 @@ Known problems:
 
 ## TODO
 + clear crontab_log.txt every seven days
-+ troubleshooting
-+ finish section "Setting up the raspberry pi"
++ ...
 
