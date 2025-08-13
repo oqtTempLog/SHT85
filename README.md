@@ -21,15 +21,15 @@ For scheduling the measurements and the upload, [cron](https://wiki.debian.org/c
 1. Install python libraries: smbus, numpy, matplotlib (smbus, numpy are usually pre-installed)
 1. Install RClone `apt install rclone`, run `rclone config`. In order to establish a connection to ownCloud proceed as follows:
 + Select "New remote".
-+ Enter a name for the remote (e.g. owncloud).
++ Enter a name for the remote (e.g. owncloud, you can choose a different name, but `upload.sh` needs to be changed accordingly).
 + Choose WebDAV as type of storage.
 + Enter `https://owncloud.gwdg.de/remote.php/nonshib-webdav` as url of host.
 + Select OwnCloud as the WebDAV service.
-+ Enter your username, select 'Yes, type in my own password' and enter your password.
++ Enter your username and press Enter. Select 'Yes, type in my own password' and enter your password.
 + Option 'bearer_token': don't enter a value, press Enter. (TODO: why?)
 + Advanced Config: select No.
 + Confirm the settings and quit the configuration.
-+ Enter `rclone lsd [name of the remote]:` (e.g. `rclone lsd owncloud:`). In case the configuration was succesfull, you should see a complete list of all directories you curreently have on your owncloud.
++ Enter `rclone lsd [name of the remote]:` (e.g. `rclone lsd owncloud:`). In case the configuration was succesfull, you should see a complete list of all directories you currently have on your owncloud.
 1. In the Raspberry Pi's home directory, create a folder called SHT85 and clone this repository.
 1. In `upload.sh` change the variable `title` to a meaningfull name (this will be the title of the plots generated at the end of the day, i.e the place where the Pi performs the measurement would be a reasonable title). Make `upload.sh` executable: `chmod u+x upload.sh`. 
 1. Run `crontab -e` and append the following lines (`2>&1` redirects stderr(2) to stdout(1))
@@ -79,5 +79,4 @@ Known problems:
 
 ## TODO
 + clear crontab_log.txt every seven days
-+ ...
 
