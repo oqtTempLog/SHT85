@@ -14,12 +14,13 @@ if [ ! -d "$directory" ]; then
 	echo "Directory $directory does not exist."
 else
 	# Merging files of the previous day to a single file
-	python /home/$piID/SHT85/mergeData.py $piID
+	python /home/$piID/SHT85/mergeData.py $piID $dateYesterday
 	
-	# Creating 
-	python /home/$piID/SHT85/plot.py $piID $title
+	# Creating plot
+	python /home/$piID/SHT85/plot.py $piID $title $dateYesterday
 	
 	#Uploading the data/plot to the ownCloud
+	curl -d loginProfile=6 -d accessType=termsOnly https://hotspot.vodafone.de/api/v4/login
 	rclone mkdir owncloud:RaspiLogs/$piID/$dateYesterday
 	rclone copyto $directory/data_merged.txt owncloud:RaspiLogs/$piID/$dateYesterday/data.txt
 	rclone copyto $directory/plot.pdf owncloud:RaspiLogs/$piID/$dateYesterday/plot.pdf

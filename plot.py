@@ -33,13 +33,13 @@ def plot(times, dat_plt, title, directory):
 	
 if __name__=="__main__":
 	logging.basicConfig(format="%(levelname)s | %(asctime)s | %(filename)s:%(lineno)s :  (message)s", datefmt="%Y-%m-%d %H:%m")
-	if len(sys.argv) != 3:
-		#Expected command line arguments: username and title
-		logging.error(f"Expected number of arguments is 2, not {len(sys.argv) - 1}")
+	if len(sys.argv) != 4:
+		#Expected command line arguments: username title date_yesterday
+		logging.error(f"Expected number of arguments is 3, not {len(sys.argv) - 1}")
 	else:
 		username = sys.argv[1]
 		title = sys.argv[2] #title of the plot
-		yesterday = (datetime.now() - timedelta(days=1)).date()
+		yesterday = sys.argv[3] #(datetime.now() - timedelta(days=1)).date()
 		directory = f"/home/{username}/SHT85/{yesterday}"
 		try:
 			data = np.loadtxt(fname=f"{directory}/data_merged.txt", comments="#")

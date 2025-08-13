@@ -69,12 +69,12 @@ def save_data(directory, date_yesterday, data_merged):
 	
 if __name__=="__main__":
 	logging.basicConfig(format="%(levelname)s | %(asctime)s | %(filename)s:%(lineno)s :  (message)s", datefmt="%Y-%m-%d %H:%m")
-	if len(sys.argv) != 2:
-		#Expected command line argument: username
-		logging.error(f"Expected number of arguments is 1, not {len(sys.argv) - 1}")
+	if len(sys.argv) != 3:
+		#Expected command line argument: username date_yesterday
+		logging.error(f"Expected number of arguments is 2, not {len(sys.argv) - 1}")
 	else:
 		username = sys.argv[1]
-		yesterday = (datetime.now() - timedelta(days=1)).date()
+		yesterday = sys.argv[2]#(datetime.now() - timedelta(days=1)).date()
 		directory = f"/home/{username}/SHT85/{yesterday}"
 		times, data, mps = load_data(directory) #mps = measurements per second
 		merged = merge_data(times, data, mps)
