@@ -88,7 +88,12 @@ def periodicMeasurement(bus, duration_sec, mps='1mps', repeatibility='high'):
 	temp_list = list()
 	hum_list = list()
 	
-	bus.write_i2c_block_data(DEVICE_ADDR, REG_PERIODIC[mps], [PERIODIC_LSB[mps][repeatibility]]) #start peridiodic measurement with specific mps and repeatibility settings
+	try:
+		bus.write_i2c_block_data(DEVICE_ADDR, REG_PERIODIC[mps], [PERIODIC_LSB[mps][repeatibility]]) #start peridiodic measurement with specific mps and repeatibility settings
+	except Exception as e:
+		logging.error("Failed to start periodic measurement.")	
+		print(e)	
+		return -1, -1
 	time.sleep(0.01)
 	t_start = time.time()
 	t_stop = time.time()
@@ -145,6 +150,8 @@ if __name__ == '__main__':
 		mps_setting = sys.argv[2]
 		meas_time_sec = int(sys.argv[3])
 		bus = smbus.SMBus(DEVICE_BUS)
+		time.sleep(0.01)
 		hum_list, temp_list = periodicMeasurement(bus, duration_sec=meas_time_sec, mps=mps_setting)
-		saveData(temp_list, hum_list, username, mps_setting)
+		if not (hum_list == -1 and temp_list == -1):
+			saveData(temp_list, hum_list, username, mps_setting)
 	
