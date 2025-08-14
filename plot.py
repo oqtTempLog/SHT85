@@ -13,7 +13,7 @@ import sys
 import logging
 
 def plot(times, dat_plt, title, directory):
-	mask_invalid_measurements = (dat_plt[:,1] < 0 and dat_plt[:,0] < 0)
+	mask_invalid_measurements = (dat_plt[:,1] < 0) & (dat_plt[:,0] < 0)
 	fig = plt.figure(figsize=(8,5))
 	ax = fig.add_subplot()
 	fig.suptitle(title)
@@ -47,5 +47,5 @@ if __name__=="__main__":
 		except OSError as e:
 			logging.error(f"Unable to open {directory}/data_merged.txt. Plot can't be created.")
 			sys.exit(1)
-		times = [datetime.fromtimestamp(t_) for t_ in data[:,0]]
+		times = np.array([datetime.fromtimestamp(t_) for t_ in data[:,0]])
 		plot(times, data[:,1:], f"{title}, date: {yesterday}", directory)
