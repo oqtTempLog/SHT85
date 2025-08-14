@@ -1,10 +1,10 @@
 #!/bin/bash
-'
-This script runs at the end of every day and is responsible for managing the upload process of yesterdays data, i.e.
-    - Merging data into a single file and create an overview plot of yesterdays temperature and humidity
-    - Uploading plot and data to cloud
-    - Remove data from more than seven days ago
-'
+
+#This script runs at the end of every day and is responsible for managing the upload process of yesterdays data, i.e.
+#    - Merging data into a single file and create an overview plot of yesterdays temperature and humidity
+#    - Uploading plot and data to cloud
+#    - Remove data from more than seven days ago
+
 
 dateYesterday=$(date -d "yesterday" +"%Y-%m-%d")
 piID=$(whoami)

@@ -1,10 +1,10 @@
 #!/bin/bash
-'
-In case you need to manually upload data of a specific date you can execute this script. The working principle is the same as in upload.sh.
-You need to provide two command line arguments:
-	1: the date of the data you want to upload, in the format year-month-day
-	2: the title of the plot that is generated
-'
+
+#In case you need to manually upload data of a specific date you can execute this script. The working principle is the same as in upload.sh.
+#You need to provide two command line arguments:
+#	1: the date of the data you want to upload, in the format year-month-day
+#	2: the title of the plot that is generated
+
 
 dateUpload=$1
 piID=$(whoami)

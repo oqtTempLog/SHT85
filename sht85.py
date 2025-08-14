@@ -129,8 +129,7 @@ def periodicMeasurement(bus, duration_sec, mps='1mps', repeatibility='high'):
 	return hum_list, temp_list
 			
 if __name__ == '__main__':
-	logging.basicConfig(format="%(levelname)s | %(asctime)s | %(filename)s:%(lineno)s :  (message)s", datefmt="%Y-%m-%d %H:%m")
-	logging.setLevel(logging.INFO)
+	logging.basicConfig(format="%(levelname)s | %(asctime)s | %(filename)s:%(lineno)s :  %(message)s", datefmt="%Y-%m-%d %H:%m", level=logging.INFO)
 	if len(sys.argv) != 4:
 		logging.error(f"Expected number of arguments is 3, not {len(sys.argv) - 1}") 
 	else:
