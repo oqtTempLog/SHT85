@@ -68,7 +68,7 @@ def save_data(directory, date_yesterday, data_merged):
 	np.savetxt(f'{directory}/data_merged.txt', X=data_merged, header=header)
 	
 if __name__=="__main__":
-	logging.basicConfig(format="%(levelname)s | %(asctime)s | %(filename)s:%(lineno)s :  %(message)s", datefmt="%Y-%m-%d %H:%m", level=logging.INFO)
+	logging.basicConfig(format="%(levelname)s | %(asctime)s | %(filename)s:%(lineno)s :  %(message)s", datefmt="%Y-%m-%d %H:%M", level=logging.INFO)
 	if len(sys.argv) != 3:
 		#Expected command line argument: username date_yesterday
 		logging.error(f"Expected number of arguments is 2, not {len(sys.argv) - 1}")

@@ -32,7 +32,7 @@ def plot(times, dat_plt, title, directory):
 	plt.savefig(f"{directory}/plot.pdf")
 	
 if __name__=="__main__":
-	logging.basicConfig(format="%(levelname)s | %(asctime)s | %(filename)s:%(lineno)s :  %(message)s", datefmt="%Y-%m-%d %H:%m", level=logging.INFO)
+	logging.basicConfig(format="%(levelname)s | %(asctime)s | %(filename)s:%(lineno)s :  %(message)s", datefmt="%Y-%m-%d %H:%M", level=logging.INFO)
 	if len(sys.argv) != 4:
 		#Expected command line arguments: username title date_yesterday
 		logging.error(f"Expected number of arguments is 3, not {len(sys.argv) - 1}")
