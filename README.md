@@ -67,9 +67,8 @@ Thus, connect the SHT85 and Raspberry Pi as follows (don't forget the resistors 
 |4 (SDA, yellow)|3 (GPIO2, SDA1)|
 
 ## Troubleshooting
-The Raspberry Pi automatically generates a log file (called `crontab_log.txt`). In case there is a software issue, having a look at this file might help. TODO: explain log files.
-However, a hardware issue is more likely. Possible problems are
-+ TODO
+The Raspberry Pi automatically generates a log file (called `crontab_log.txt`). In case there is a software issue, having a look at this file might help
+In case the automatic upload procedure did not work for whatever reason. 
 
 Known problems:
 

@@ -13,12 +13,13 @@ import sys
 import logging
 
 def plot(times, dat_plt, title, directory):
+	mask_invalid_measurements = (dat_plt[:,1] < 0 and dat_plt[:,0] < 0)
 	fig = plt.figure(figsize=(8,5))
 	ax = fig.add_subplot()
 	fig.suptitle(title)
-	ax.plot(times, dat_plt[:,1], color="cornflowerblue")
+	ax.plot(times[~mask_invalid_measurements], dat_plt[:,1][~mask_invalid_measurements], color="cornflowerblue")
 	ax_twin = ax.twinx()
-	ax_twin.plot(times, dat_plt[:,0], color="firebrick")
+	ax_twin.plot(times[~mask_invalid_measurements], dat_plt[:,0][~mask_invalid_measurements], color="firebrick")
 
 	ax.xaxis.set_major_formatter(mdates.DateFormatter('%H:%M'))
 	ax.set_xlabel("Time")

@@ -93,30 +93,38 @@ def periodicMeasurement(bus, duration_sec, mps='1mps', repeatibility='high'):
 	t_start = time.time()
 	t_stop = time.time()
 	while(t_stop - t_start < duration_sec):
-		bus.write_i2c_block_data(DEVICE_ADDR, REG_FETCH_DATA, [FETCH_DATA_LSB]) #fetch data from sensor 
-		time.sleep(0.01)
+		try:
+			bus.write_i2c_block_data(DEVICE_ADDR, REG_FETCH_DATA, [FETCH_DATA_LSB]) #fetch data from sensor 
+			time.sleep(0.01)
+			#Read data from SHT85. The SHT85 sends 6 bytes (see SHT85 manual for details):
+			# - The first two encode the temperature
+			# - the third is a checksum for the tmeperature bytes
+			# - the fourth and fifth encode the humitidy 
+			# - the sixth is a checksum for the humidity bytes 
+			ret = bus.read_i2c_block_data(DEVICE_ADDR, REG_READ, 6)
+			
+			S_T = (ret[0] << 8) | ret[1]
+			check1 = checkCRC(ret[0:2], 2, ret[2])
+			S_RH = (ret[3] << 8) | ret[4]
+			check2 = checkCRC(ret[3:5], 2, ret[5])
 		
-		#Read data from SHT85. The SHT85 sends 6 bytes (see SHT85 manual for details):
-		# - The first two encode the temperature
-		# - the third is a checksum for the tmeperature bytes
-		# - the fourth and fifth encode the humitidy 
-		# - the sixth is a checksum for the humidity bytes 
-		ret = bus.read_i2c_block_data(DEVICE_ADDR, REG_READ, 6)
-		S_T = (ret[0] << 8) | ret[1]
-		check1 = checkCRC(ret[0:2], 2, ret[2])
-		S_RH = (ret[3] << 8) | ret[4]
-		check2 = checkCRC(ret[3:5], 2, ret[5])
+			#convert temperature and humidity to usefull units
+			hum = conv_RH(S_RH) #in %
+			temp = conv_T(S_T) #in C
 		
-		#convert temperature and humidity to usefull units
-		hum = conv_RH(S_RH) #in %
-		temp = conv_T(S_T) #in C
-		
-		# Disregard Measurements in case the checksums do not match
-		if not (check1 and check2):
-			logging.error("Checksums do not match! Disregard measurement.")
-		else:
-			temp_list.append(temp)
-			hum_list.append(hum)
+			# Disregard Measurements in case the checksums do not match
+			if not (check1 and check2):
+				logging.error("Checksums do not match! Disregard measurement.")
+				temp_list.append(-1)
+				hum_list.append(-1)
+			else:
+				temp_list.append(temp)
+				hum_list.append(hum)
+		except Exception as e:
+			logging.error("Error while reading I2C data. Disregard measurement.")
+			print(e)
+			temp_list.append(-1)
+			hum_list.append(-1) 
 			
 		#wait for 1/mps seconds
 		if mps!='0.5mps':
