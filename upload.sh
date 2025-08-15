@@ -29,7 +29,13 @@ fi
 
 # Delete outdated data files. Only the last seven days are stored on the Raspberry Pi.
 dateRemove=$(date --date="7 day ago" +"%Y-%m-%d")
-directoryRemove="/home/$piID/SHT85/$dateRemove"
-if [ -d "$directoryRemove" ]; then
-	rm -r $directoryRemove
-fi
+cd /home/$piID/SHT85
+for f in *; do #loop through all files
+    if [ -d "$f" ]; then #check if f is a directory
+    	if [[ "$f" == [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9] ]]; then #check if f is of the from yyyy-mm-dd
+     		if [[ "$dateRemove" > "$f" ]]; then
+				rm -r $f
+			fi
+    	fi        
+    fi
+done

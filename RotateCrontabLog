@@ -1,0 +1,7 @@
+# Add this file into /etc/logrotate.d/
+# This will keep copies of the last 3 days of crontab_log.txt
+~/SHT85/crontab_log.txt{
+rotate 3
+daily
+nocompress
+}
