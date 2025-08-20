@@ -67,15 +67,19 @@ Thus, connect the SHT85 and Raspberry Pi as follows (don't forget the resistors 
 |4 (SDA, yellow)|3 (GPIO2, SDA1)|
 
 ## Troubleshooting
-The Raspberry Pi automatically generates a log file (called `crontab_log.txt`). In case there is a software issue, having a look at this file might help
-In case the automatic upload procedure did not work for whatever reason. 
+The Raspberry Pi automatically generates a log file (called `crontab_log.txt`). In case there is a software issue, having a look at this file might help. There are two different ways how one can access the Pi's (connecting via SSH won't work, because BayernWLAN blocks all SSH connections):
++ either connect to the Pi via Laptop and LAN cable
++ or use the Pi0 hotspot. The Pi's are configured such that they automatically connect to the pi0 hotspot, once the hotspot is in range. The script `switchToPi0Hotspot.sh` checks are regular time intervals if the hotspot is available. If so, the connection will be established. 
+
+In case the automatic upload procedure didn't work for whatever reason, the upload can be done by hand: Access the Pi (via one of the above methods) and run `uploadByHand.sh yyyy-mm-dd title`, where `yyyy-mm-dd` is the day of which you want to upload the data and `title` is the title of the plot that is generated.
 
 Known problems:
-
+case
 |pi|hardware/software|Problem description|Solution|
 |--|----|-------------------|--------|
-|pi1|hardware|unstable WLAN connection due to broken resistor/capacitor| -| 
+|pi1|hardware|unstable WLAN connection due to broken resistor/capacitor| -|
+|-|software|`uploadByHand.sh` not working, because `data_merged.txt` and `plot.pdf` are already created TODO: this is not the error code that is thrown|just delete `data_merged.txt` and `plot.pdf`. Both of them will be freshly created by `uploadByHand.sh`.| 
 
 ## TODO
-+ clear crontab_log.txt every seven days
-
++ test pi0 hotspot
++ finish readme
