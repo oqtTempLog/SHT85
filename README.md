@@ -36,6 +36,7 @@ For scheduling the measurements and the upload, [cron](https://wiki.debian.org/c
 ```
     */2 * * * * python ~/SHT85/sht85.py $(whoami) 1mps 118>>~/SHT85/crontab_log.txt 2>&1
     0 1 * * * ~/SHT85/upload.sh>>~/SHT85/crontab_log.txt 2>&1
+    */3 * * * * ~/SHT85/switchToPi0Hotspot.sh
 ```
 Of course, the timing as well as the mps and measurement time settings can be changed to whatever is needed (explanations of crontab syntax can be found for example on [Wikipedia](https://en.wikipedia.org/wiki/Cron "Wiki Crontab").
 
@@ -67,9 +68,10 @@ Thus, connect the SHT85 and Raspberry Pi as follows (don't forget the resistors 
 |4 (SDA, yellow)|3 (GPIO2, SDA1)|
 
 ## Troubleshooting
-The Raspberry Pi automatically generates a log file (called `crontab_log.txt`). In case there is a software issue, having a look at this file might help. There are two different ways how one can access the Pi's (connecting via SSH won't work, because BayernWLAN blocks all SSH connections):
-+ either connect to the Pi via Laptop and LAN cable
+The Raspberry Pi automatically generates a log file (called `crontab_log.txt`). In case there is a software issue, having a look at this file might help. There are two standard ways how one can access the Pi's (connecting via SSH won't work, because BayernWLAN blocks all SSH connections):
++ either connect to the Pi via Laptop and LAN cable (in order for this to work, a reboot of the pi might be necessary)
 + or use the Pi0 hotspot. The Pi's are configured such that they automatically connect to the pi0 hotspot, once the hotspot is in range. The script `switchToPi0Hotspot.sh` checks are regular time intervals if the hotspot is available. If so, the connection will be established. 
+Although, these procedures work, the preferred (and up to now seemingly most stable connection) is via USB connection between the pi and the laptop (see the folder called USBConnection). 
 
 In case the automatic upload procedure didn't work for whatever reason, the upload can be done by hand: Access the Pi (via one of the above methods) and run `uploadByHand.sh yyyy-mm-dd title`, where `yyyy-mm-dd` is the day of which you want to upload the data and `title` is the title of the plot that is generated.
 
