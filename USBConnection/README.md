@@ -7,7 +7,7 @@ On the Pi, go to `/boot/firmware/config.txt` and
 
 Next, open `/boot/firmware/cmdline.txt` and insert `modules-load=dwc2,g_ether` after `rootwait`.
 
-Create a new network profile for the usb connection using the NetworkManager:
+After rebooting your pi, create a new network profile for the usb connection using the NetworkManager:
 Go to `/etc/NetworkManager/system-connections`, create a file called `usb0.nmconnection` and add the following content (instead of `192.168.4.11` you can use any IP address of the form `192.168.4.x`, do not change the gateway address `192.168.4.1`):
 
 ```
@@ -31,7 +31,7 @@ method=auto
 [proxy]
 ```
 
-Bring up the newly created interface via `nmcli connection up usb0`. To bring it up automatically at boot-time, go to `/etc/systemd/system/`, create a new file called `nm-usb0.service` and copy/paste the following:
+Modify the file permissions: `sudo chmod 600 usb0.nmconnection`. Finally, reload all connections (`sudo nmcli connection reload`) and bring up the newly created interface via `nmcli connection up usb0`. To bring it up automatically at boot-time, go to `/etc/systemd/system/`, create a new file called `nm-usb0.service` and copy/paste the following:
 
 ```
 [Unit]
