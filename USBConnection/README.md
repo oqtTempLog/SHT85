@@ -5,7 +5,7 @@ On the Pi, go to `/boot/firmware/config.txt` and
 + remove `dtoverlay=dwc2,dr_mode=host` (in `[cm5]`)
 + add `dtoverlay=dwc2` in `[all]`
 
-Next, open `/boot/firmware/cmdline.txt` and insert `add modules-load=dwc2,g_ether` after `rootwait`.
+Next, open `/boot/firmware/cmdline.txt` and insert `modules-load=dwc2,g_ether` after `rootwait`.
 
 Create a new network profile for the usb connection using the NetworkManager:
 Go to `/etc/NetworkManager/system-connections`, create a file called `usb0.nmconnection` and add the following content (instead of `192.168.4.11` you can use any IP address of the form `192.168.4.x`, do not change the gateway address `192.168.4.1`):
