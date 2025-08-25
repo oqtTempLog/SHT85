@@ -1,16 +1,14 @@
-# Setting up a USB connection between Raspi and Computer
+# Using SSH via USB connection between Raspi and Computer
 
-Pi
-/boot/firmware/config.txt: 
-+ remove otg_mode=1 (in [cm4])
-+ remove dtoverlay=dwc2,dr_mode=host (in [cm5])
-+ add dtoverlay=dwc2 in [all]
+On the Pi, go to `/boot/firmware/config.txt` and
++ remove `otg_mode=1` (in `[cm4]`)
++ remove `dtoverlay=dwc2,dr_mode=host` (in `[cm5]`)
++ add `dtoverlay=dwc2` in `[all]`
 
-/boot/firmware/cmdline.txt:
-add modules-load=dwc2,g_ether after rootwait
+Next, open `/boot/firmware/cmdline.txt` and insert `add modules-load=dwc2,g_ether` after `rootwait`.
 
-create new NetworkProfile for the usb connection:
-go to /etc/NetworkManager/system-connections, create a file called usb0.nmconnection and add the following content:
+Create a new network profile for the usb connection using the NetworkManager:
+Go to `/etc/NetworkManager/system-connections`, create a file called `usb0.nmconnection` and add the following content (instead of `192.168.4.11` you can use any IP address of the form `192.168.4.x`, do not change the gateway address `192.168.4.1`):
 
 ```
 [connection]
@@ -33,7 +31,7 @@ method=auto
 [proxy]
 ```
 
-Bring up this network via nmcli connection up usb0. To bring it up automatically at boot-time, go to /etc/systemd/system/, create a new file called nm-usb0.service and copy/paste the following:
+Bring up the newly created interface via `nmcli connection up usb0`. To bring it up automatically at boot-time, go to `/etc/systemd/system/`, create a new file called `nm-usb0.service` and copy/paste the following:
 
 ```
 [Unit]
@@ -50,8 +48,7 @@ RemainAfterExit=yes
 WantedBy=multi-user.target
 ```
 
-Next, enable this newly created service via sudo systemctl enable nm-usb0.service
+Next, enable this newly created service via `sudo systemctl enable nm-usb0.service`.
 Finally, reboot the pi.
 
-Laptop
-plug in the pi via usb and run the setupUSB.sh script (with root privileges).
+Plug a USB cable into the Pis USB and into your laptop (attention: there are USB cables that are made only for charging, we need a cable that also supports data transfer). Run the `setupUSB.sh` script (with root privileges). You should then be able to ssh into the Pi (via `ssh username@192.168.4.x`).
