@@ -1,8 +1,8 @@
 # Add this file into /etc/logrotate.d/
-# This will keep copies of the last 3 days of crontab_log.txt
+# This will keep copies of the last 3 weeks of crontab_log.txt
 # Don't forget to change the users home directory accordingly (i.e. change /home/pi1/... to /home/piX/...)
 /home/pi1/SHT85/crontab_log.txt{
 rotate 3
-daily
+weekly
 nocompress
 }
